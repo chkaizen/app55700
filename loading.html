@@ -7,11 +7,14 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+    <!-- Exibição do vídeo de loading -->
     <div class="loading-logo">
         <video id="loadingVideo" autoplay muted>
             <source src="video/logo.mp4" type="video/mp4">
         </video>
     </div>
+
+    <!-- Exibição da animação de loading (GIF) após o vídeo -->
     <div class="loading-animation" style="display: none;">
         <img src="img/loadingApp.gif" alt="Loading">
     </div>
@@ -20,13 +23,13 @@
         const video = document.getElementById('loadingVideo');
         const loadingAnimation = document.querySelector('.loading-animation');
 
-        // Exibir o GIF de loading apenas após o vídeo terminar
+        // Quando o vídeo terminar, exibir o GIF e redirecionar
         video.addEventListener('ended', () => {
             loadingAnimation.style.display = 'block';
             // Timer para redirecionar para a tela inicial após o GIF ser exibido
             setTimeout(() => {
                 window.location.href = 'index.html';
-            }, 1500); // 1.5s para o loading
+            }, 1500); // Aguarda 1.5 segundos para exibir o GIF e redirecionar
         });
     </script>
 </body>
