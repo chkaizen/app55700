@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App de Edição de Imagem</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <h1>Editor de Imagem com Moldura</h1>
+    <div class="toolbar">
+        <!-- Botão para inserir a imagem -->
+        <button onclick="carregarImagem()">Inserir Imagem</button>
+        <!-- Botão para aplicar moldura -->
+        <button onclick="aplicarMoldura()">Aplicar Moldura</button>
+        <!-- Botão para salvar a imagem -->
+        <button onclick="salvarImagem()">Salvar Imagem</button>
+    </div>
+
+    <!-- Área de edição -->
+    <div class="canvas-container">
+        <canvas id="canvas" width="400" height="400"></canvas>
+    </div>
+
+    <!-- Input de arquivos para carregar a imagem -->
+    <input type="file" id="imagemInput" accept="image/*" style="display:none;" onchange="inserirImagem(event)">
+
+    <script src="js/script.js"></script>
+</body>
+</html>
+
