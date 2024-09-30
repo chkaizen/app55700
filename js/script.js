@@ -122,11 +122,9 @@ function alterarProporcao(proporcao) {
     }
     desenharCanvas();
 }
-
 // Função para salvar a imagem e abrir a tela de opções
 function forcarDownloadImagem() {
     if (imgPrincipal || molduraAtual) {
-        const canvas = document.getElementById('canvas');
         const dataURL = canvas.toDataURL('image/jpeg', 0.8);
         abrirTelaSalvar(dataURL);
     } else {
@@ -134,7 +132,7 @@ function forcarDownloadImagem() {
     }
 }
 
-// Função para abrir a tela de salvar/compartilhar
+// Função para abrir a tela de salvar e compartilhar
 function abrirTelaSalvar(dataURL) {
     const novaJanela = window.open();
     const conteudo = `
@@ -169,6 +167,15 @@ function abrirTelaSalvar(dataURL) {
                     border-radius: 5px;
                     cursor: pointer;
                 }
+                input[type="text"] {
+                    padding: 10px;
+                    font-size: 16px;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                    width: 100%;
+                    max-width: 300px;
+                    margin-bottom: 10px;
+                }
             </style>
         </head>
         <body>
@@ -184,23 +191,47 @@ function abrirTelaSalvar(dataURL) {
     novaJanela.document.close();
 }
 
-// Função para salvar a imagem
+// Função para salvar a imagem no Android ou Web
 function salvarImagem() {
     const nomeImagem = document.getElementById('nomeImagem').value || 'imagem_sem_nome';
-    const canvas = document.getElementById('canvas');
     const dataURL = canvas.toDataURL('image/jpeg', 0.8);
-    const link = document.createElement('a');
-    link.href = dataURL;
-    link.download = nomeImagem + '.jpg';
-    link.click();
+    const fileName = `${nomeImagem}.jpg`;
+
+    if (window.cordova) {
+        // Salvando no Android
+        window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, function(dir) {
+            dir.getFile(fileName, { create: true, exclusive: false }, function(fileEntry) {
+                fileEntry.createWriter(function(fileWriter) {
+                    fileWriter.onwriteend = function() {
+                        alert('Imagem salva com sucesso em ' + fileEntry.nativeURL);
+                    };
+
+                    fileWriter.onerror = function(e) {
+                        alert('Erro ao salvar imagem: ' + e.toString());
+                    };
+
+                    const dataBlob = dataURLtoBlob(dataURL);
+                    fileWriter.write(dataBlob);
+                });
+            }, function(error) {
+                alert('Erro ao acessar diretório: ' + error.code);
+            });
+        });
+    } else {
+        // Salvando no Web (PC)
+        const link = document.createElement('a');
+        link.href = dataURL;
+        link.download = fileName;
+        link.click();
+    }
 }
 
 // Função para compartilhar a imagem via WhatsApp
 function compartilharImagem(dataURL) {
-    const mensagem = "Estou apoiando 55700 - Alexandre Santos, Nosso Vereador! Colabore você também!";
-    const linkWhatsApp = `https://api.whatsapp.com/send?text=${encodeURIComponent(mensagem)}&media=${encodeURIComponent(dataURL)}`;
-    window.open(linkWhatsApp, '_blank');
+    const link = `https://api.whatsapp.com/send?text=${encodeURIComponent('Confira esta imagem!')}&url=${dataURL}`;
+    window.open(link, '_blank');
 }
+
 
 // Função para voltar para a tela inicial
 function voltarParaHome() {
