@@ -189,13 +189,43 @@ alert('Nenhuma imagem para baixar!');
 }
 }
 
-// Função para compartilhar a imagem (abre o WhatsApp com a URL da imagem gerada)
-function compartilharImagem(dataURL) {
-const nomeImagem = document.getElementById('nomeImagem').value || 'imagem_sem_nome';
-const mensagem = encodeURIComponent(`Confira esta imagem: ${nomeImagem}`);
-const linkWhatsApp = `https://api.whatsapp.com/send?text=${mensagem}`;
-window.open(linkWhatsApp, '_blank');
+function compartilharImagem() {
+    const dataURL = canvas.toDataURL('image/jpeg', 0.8);
+
+    // Verificar se o dispositivo é Cordova (Mobile)
+    if (window.cordova) {
+        const blob = dataURLtoBlob(dataURL);  // Converte a imagem para Blob
+        const nomeImagem = 'imagem_compartilhada.jpg';  // Nome padrão da imagem a ser compartilhada
+        
+        window.resolveLocalFileSystemURL(cordova.file.cacheDirectory, function(dir) {
+            dir.getFile(nomeImagem, { create: true, exclusive: false }, function(fileEntry) {
+                fileEntry.createWriter(function(fileWriter) {
+                    fileWriter.onwriteend = function() {
+                        // Usa o plugin de compartilhamento para abrir as opções de compartilhamento
+                        window.plugins.socialsharing.share(null, null, fileEntry.nativeURL);
+                    };
+                    fileWriter.onerror = function(e) {
+                        alert('Erro ao preparar a imagem para compartilhamento: ' + e.toString());
+                    };
+                    
+                    fileWriter.write(blob);  // Escreve a imagem no arquivo
+                });
+            });
+        });
+    } else {
+        // Para navegadores web (PC), usa a API de compartilhamento do navegador
+        if (navigator.share) {
+            navigator.share({
+                title: 'Compartilhar Imagem',
+                text: 'Confira esta imagem que eu criei!',
+                files: [new File([dataURLtoBlob(dataURL)], 'imagem_compartilhada.jpg', { type: 'image/jpeg' })]
+            }).catch((error) => console.log('Erro ao compartilhar:', error));
+        } else {
+            alert('Compartilhamento não é suportado no seu navegador. Tente em um dispositivo móvel.');
+        }
+    }
 }
+
 
 // Função para salvar a imagem no navegador (para ambiente Web)
 function salvarImagemWeb() {
