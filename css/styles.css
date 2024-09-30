@@ -1,0 +1,159 @@
+/* Estilo global */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+/* Estilo para o GIF de fundo com animação */
+.animated-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.animated-background img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Mantém o aspecto do GIF enquanto cobre toda a área */
+    animation: moveBackground 20s linear infinite; /* Animação lenta de movimento */
+}
+
+/* Animação de deslizamento horizontal */
+@keyframes moveBackground {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(-10%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+
+/* Estilo para o vídeo de fundo */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.video-background img, .video-background video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    z-index: -1;
+    background-size: cover;
+}
+
+/* Container principal */
+.container {
+    margin-top: 50px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Estilo dos botões */
+.btn {
+    display: inline-block;
+    margin: 10px;
+    padding: 15px 30px;
+    font-size: 18px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Estilo do canvas e da área de desenho */
+.canvas-container {
+    border: 2px solid #000;
+    display: inline-block;
+    position: relative;
+    margin-top: 20px;
+}
+
+#canvas {
+    border: 1px solid #ddd;
+}
+
+/* Barra de ferramentas na parte inferior */
+.bottom-toolbar {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-around;
+    width: 80%;
+}
+
+/* Rodapé com link */
+footer {
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+footer a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* Estilo para o histórico de imagens */
+.historico {
+    margin-top: 30px;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.historico h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.historico ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.historico li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.historico li:hover {
+    background-color: #ddd;
+}

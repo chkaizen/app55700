@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Imagens</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <h1>Criar Nova Peça</h1>
+    <div class="toolbar">
+        <!-- Botão para inserir imagem -->
+        <button class="btn" onclick="carregarImagem()">Inserir Imagem</button>
+        <!-- Botão para trocar moldura -->
+        <button class="btn" onclick="trocarMoldura()">Trocar Moldura</button>
+        <!-- Botão para selecionar moldura da galeria -->
+        <button class="btn" onclick="selecionarMolduraGaleria()">Selecionar Moldura da Galeria</button>
+        <!-- Botões de proporção -->
+        <button class="btn" onclick="alterarProporcao('1:1')">1:1</button>
+        <button class="btn" onclick="alterarProporcao('9:16')">9:16</button>
+    </div>
+    <div class="canvas-container">
+        <!-- Canvas onde a imagem e moldura serão manipuladas -->
+        <canvas id="canvas" width="400" height="400"></canvas>
+    </div>
+
+    <!-- Botões reposicionados na parte inferior -->
+    <div class="bottom-toolbar">
+        <button class="btn" onclick="voltarParaHome()">Voltar para Home</button>
+        <!-- Botão para exibir a imagem em uma nova janela -->
+        <button class="btn" onclick="forcarDownloadImagem()">Salvar Imagem</button>
+        <button class="btn" onclick="salvarImagemFinal()">2Salvar Imagem</button>
+
+    </div>
+
+    <!-- Inputs de arquivos para selecionar imagem e moldura -->
+    <input type="file" id="imagemInput" style="display: none;" onchange="inserirImagem(event)">
+    <input type="file" id="molduraInput" style="display: none;" onchange="adicionarMolduraGaleria(event)">
+
+    <!-- Arquivo JavaScript externo -->
+    <script src="js/script.js"></script>
+</body>
+</html>

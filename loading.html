@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="loading-logo">
+        <video id="loadingVideo" autoplay muted>
+            <source src="video/logo.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="loading-animation" style="display: none;">
+        <img src="img/loadingApp.gif" alt="Loading">
+    </div>
+
+    <script>
+        const video = document.getElementById('loadingVideo');
+        const loadingAnimation = document.querySelector('.loading-animation');
+
+        // Exibir o GIF de loading apenas após o vídeo terminar
+        video.addEventListener('ended', () => {
+            loadingAnimation.style.display = 'block';
+            // Timer para redirecionar para a tela inicial após o GIF ser exibido
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1500); // 1.5s para o loading
+        });
+    </script>
+</body>
+</html>

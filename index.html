@@ -3,29 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App de Edição de Imagem</title>
+    <title>Aplicativo do Vereador</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <h1>Editor de Imagem com Moldura</h1>
-    <div class="toolbar">
-        <!-- Botão para inserir a imagem -->
-        <button onclick="carregarImagem()">Inserir Imagem</button>
-        <!-- Botão para aplicar moldura -->
-        <button onclick="aplicarMoldura()">Aplicar Moldura</button>
-        <!-- Botão para salvar a imagem -->
-        <button onclick="salvarImagem()">Salvar Imagem</button>
+    <div class="animated-background">
+    <img src="video/background.gif" alt="Background GIF">
+</div>
+
+
+    
+    <div class="container">
+        <!-- Imagem do candidato -->
+        <img src="img/vereador.png" alt="Vereador" style="width: 150px; border-radius: 50%;">
+        <!-- Slogan da campanha -->
+        <h1>#Respeito e conduta pelo bem de todos</h1>
+        <!-- Botões de navegação -->
+        <button class="btn" onclick="abrirLink('https://www.instagram.com/alexandresantosoficial.as/')">Instagram</button>
+        <button class="btn" onclick="abrirLink('https://www.facebook.com/ComDeusSempreAvante/reels/')">Facebook</button>
+        <button class="btn" onclick="abrirLink('https://wa.me/5511940355940')">WhatsApp</button>
+        <button class="btn" onclick="mostrarInformacoes()">Informações</button>
+        <button class="btn" onclick="irParaEditor()">Criar Nova Peça</button>
+
+        <!-- Seção de histórico de imagens -->
+        <div id="historico" class="historico">
+            <h2>Histórico de Imagens Criadas</h2>
+            <ul id="listaHistorico">
+                <li class="vazio">Exemplo de item vazio</li>
+                <li class="vazio">Exemplo de item vazio</li>
+                <!-- Itens do histórico serão carregados aqui dinamicamente -->
+            </ul>
+        </div>
     </div>
+    <footer>
+        <a href="https://taplink.cc/_forcavital" target="_blank" style="color: yellow;">Powered By Força Vital - Arte e Tecnologia</a>
+    </footer>
 
-    <!-- Área de edição -->
-    <div class="canvas-container">
-        <canvas id="canvas" width="400" height="400"></canvas>
-    </div>
-
-    <!-- Input de arquivos para carregar a imagem -->
-    <input type="file" id="imagemInput" accept="image/*" style="display:none;" onchange="inserirImagem(event)">
-
+    <!-- Arquivo JavaScript externo -->
     <script src="js/script.js"></script>
 </body>
 </html>
-
