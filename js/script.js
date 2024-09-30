@@ -122,114 +122,99 @@ function alterarProporcao(proporcao) {
     }
     desenharCanvas();
 }
+
 // Função para salvar a imagem e abrir a tela de opções
-function forcarDownloadImagem() {
+function abrirTelaSalvar() {
     if (imgPrincipal || molduraAtual) {
         const dataURL = canvas.toDataURL('image/jpeg', 0.8);
-        abrirTelaSalvar(dataURL);
-    } else {
-        alert('Nenhuma imagem para baixar!');
-    }
+        const novaJanela = window.open();
+        const conteudo = `
+            <html>
+            <head>
+                <title>Salvar e Compartilhar</title>
+                <style>
+                    body {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        font-family: Arial,
+
+font-family: Arial, sans-serif;
+margin: 0;
+padding: 20px;
+background-color: #f4f4f4;
+}
+img {
+max-width: 100%;
+height: auto;
+border: 1px solid #ddd;
+border-radius: 5px;
+margin-bottom: 20px;
+}
+.btn {
+margin-top: 20px;
+padding: 10px 20px;
+font-size: 16px;
+background-color: #007bff;
+color: white;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+}
+.instructions {
+font-size: 16px;
+color: #333;
+margin-bottom: 20px;
+text-align: center;
+}
+</style>
+</head>
+<body>
+<img src="${dataURL}" alt="Imagem Editada" />
+<input type="text" id="nomeImagem" placeholder="Nome da Imagem">
+<button class="btn" onclick="salvarImagemWeb()">Salvar</button>
+<button class="btn" onclick="compartilharImagem('${dataURL}')">Compartilhar</button>
+<button class="btn" onclick="window.location.href='editor.html'">Voltar ao Editor</button>
+</body>
+</html>
+`;
+novaJanela.document.write(conteudo);
+novaJanela.document.close();
+} else {
+alert('Nenhuma imagem para salvar ou compartilhar!');
+}
 }
 
-// Função para abrir a tela de salvar e compartilhar
-function abrirTelaSalvar(dataURL) {
-    const novaJanela = window.open();
-    const conteudo = `
-        <html>
-        <head>
-            <title>Salvar e Compartilhar</title>
-            <style>
-                body {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    font-family: Arial, sans-serif;
-                    margin: 0;
-                    padding: 20px;
-                    background-color: #f4f4f4;
-                }
-                img {
-                    max-width: 100%;
-                    height: auto;
-                    border: 1px solid #ddd;
-                    border-radius: 5px;
-                    margin-bottom: 20px;
-                }
-                .btn {
-                    margin-top: 20px;
-                    padding: 10px 20px;
-                    font-size: 16px;
-                    background-color: #007bff;
-                    color: white;
-                    border: none;
-                    border-radius: 5px;
-                    cursor: pointer;
-                }
-                input[type="text"] {
-                    padding: 10px;
-                    font-size: 16px;
-                    border: 1px solid #ddd;
-                    border-radius: 5px;
-                    width: 100%;
-                    max-width: 300px;
-                    margin-bottom: 10px;
-                }
-            </style>
-        </head>
-        <body>
-            <img src="${dataURL}" alt="Imagem Editada" />
-            <input type="text" id="nomeImagem" placeholder="Nome da Imagem">
-            <button class="btn" onclick="salvarImagem()">Salvar</button>
-            <button class="btn" onclick="compartilharImagem('${dataURL}')">Compartilhar</button>
-            <button class="btn" onclick="window.location.href='editor.html'">Voltar ao Editor</button>
-        </body>
-        </html>
-    `;
-    novaJanela.document.write(conteudo);
-    novaJanela.document.close();
+// Função para baixar a imagem diretamente
+function forcarDownloadImagem() {
+if (imgPrincipal || molduraAtual) {
+const dataURL = canvas.toDataURL('image/jpeg', 0.8);
+const link = document.createElement('a');
+link.href = dataURL;
+link.download = 'imagem_editada.jpg';
+link.click();
+} else {
+alert('Nenhuma imagem para baixar!');
+}
 }
 
-// Função para salvar a imagem no Android ou Web
-function salvarImagem() {
-    const nomeImagem = document.getElementById('nomeImagem').value || 'imagem_sem_nome';
-    const dataURL = canvas.toDataURL('image/jpeg', 0.8);
-    const fileName = `${nomeImagem}.jpg`;
-
-    if (window.cordova) {
-        // Salvando no Android
-        window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, function(dir) {
-            dir.getFile(fileName, { create: true, exclusive: false }, function(fileEntry) {
-                fileEntry.createWriter(function(fileWriter) {
-                    fileWriter.onwriteend = function() {
-                        alert('Imagem salva com sucesso em ' + fileEntry.nativeURL);
-                    };
-
-                    fileWriter.onerror = function(e) {
-                        alert('Erro ao salvar imagem: ' + e.toString());
-                    };
-
-                    const dataBlob = dataURLtoBlob(dataURL);
-                    fileWriter.write(dataBlob);
-                });
-            }, function(error) {
-                alert('Erro ao acessar diretório: ' + error.code);
-            });
-        });
-    } else {
-        // Salvando no Web (PC)
-        const link = document.createElement('a');
-        link.href = dataURL;
-        link.download = fileName;
-        link.click();
-    }
-}
-
-// Função para compartilhar a imagem via WhatsApp
+// Função para compartilhar a imagem (abre o WhatsApp com a URL da imagem gerada)
 function compartilharImagem(dataURL) {
-    const link = `https://api.whatsapp.com/send?text=${encodeURIComponent('Confira esta imagem!')}&url=${dataURL}`;
-    window.open(link, '_blank');
+const nomeImagem = document.getElementById('nomeImagem').value || 'imagem_sem_nome';
+const mensagem = encodeURIComponent(`Confira esta imagem: ${nomeImagem}`);
+const linkWhatsApp = `https://api.whatsapp.com/send?text=${mensagem}`;
+window.open(linkWhatsApp, '_blank');
+}
+
+// Função para salvar a imagem no navegador (para ambiente Web)
+function salvarImagemWeb() {
+const dataURL = canvas.toDataURL('image/jpeg', 0.8);
+const nomeImagem = document.getElementById('nomeImagem').value || 'imagem_editada';
+const link = document.createElement('a');
+link.href = dataURL;
+link.download = `${nomeImagem}.jpg`;
+link.click();
 }
 
 
