@@ -123,68 +123,58 @@ function alterarProporcao(proporcao) {
     desenharCanvas();
 }
 
-// Função para salvar a imagem e abrir a tela de opções
-function abrirTelaSalvar() {
-    if (imgPrincipal || molduraAtual) {
-        const dataURL = canvas.toDataURL('image/jpeg', 0.8);
-        const novaJanela = window.open();
-        const conteudo = `
-            <html>
-            <head>
-                <title>Salvar e Compartilhar</title>
-                <style>
-                    body {
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        justify-content: center;
-                        font-family: Arial,
+// Função para compartilhar a imagem (abre as opções de compartilhamento no Android ou exibe opções de compartilhamento no navegador)
+function compartilharImagem() {
+    const dataURL = canvas.toDataURL('image/jpeg', 0.8);
+    
+    // Se o dispositivo for Android (Cordova), usamos o plugin de compartilhamento social
+    if (window.cordova) {
+        const blob = dataURLtoBlob(dataURL);  // Converte a imagem para Blob
+        const nomeImagem = 'imagem_compartilhada.jpg';  // Nome padrão da imagem a ser compartilhada
+        
+        window.resolveLocalFileSystemURL(cordova.file.cacheDirectory, function(dir) {
+            dir.getFile(nomeImagem, { create: true, exclusive: false }, function(fileEntry) {
+                fileEntry.createWriter(function(fileWriter) {
+                    fileWriter.onwriteend = function() {
+                        // Usa o plugin de compartilhamento para abrir as opções de compartilhamento
+                        window.plugins.socialsharing.share(null, null, fileEntry.nativeURL);
+                    };
+                    fileWriter.onerror = function(e) {
+                        alert('Erro ao preparar a imagem para compartilhamento: ' + e.toString());
+                    };
+                    
+                    const blob = dataURLtoBlob(dataURL);
+                    fileWriter.write(blob);  // Escreve a imagem no arquivo
+                });
+            });
+        });
+    } else {
+        // Para navegadores web (PC), usa a API de compartilhamento do navegador
+        if (navigator.share) {
+            navigator.share({
+                title: 'Compartilhar Imagem',
+                text: 'Confira esta imagem que eu criei!',
+                url: dataURL
+            }).catch((error) => console.log('Erro ao compartilhar:', error));
+        } else {
+            alert('Compartilhamento não é suportado no seu navegador. Tente em um dispositivo móvel.');
+        }
+    }
+}
 
-font-family: Arial, sans-serif;
-margin: 0;
-padding: 20px;
-background-color: #f4f4f4;
+// Função auxiliar para converter DataURL para Blob
+function dataURLtoBlob(dataURL) {
+    const arr = dataURL.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], { type: mime });
 }
-img {
-max-width: 100%;
-height: auto;
-border: 1px solid #ddd;
-border-radius: 5px;
-margin-bottom: 20px;
-}
-.btn {
-margin-top: 20px;
-padding: 10px 20px;
-font-size: 16px;
-background-color: #007bff;
-color: white;
-border: none;
-border-radius: 5px;
-cursor: pointer;
-}
-.instructions {
-font-size: 16px;
-color: #333;
-margin-bottom: 20px;
-text-align: center;
-}
-</style>
-</head>
-<body>
-<img src="${dataURL}" alt="Imagem Editada" />
-<input type="text" id="nomeImagem" placeholder="Nome da Imagem">
-<button class="btn" onclick="salvarImagemWeb()">Salvar</button>
-<button class="btn" onclick="compartilharImagem('${dataURL}')">Compartilhar</button>
-<button class="btn" onclick="window.location.href='editor.html'">Voltar ao Editor</button>
-</body>
-</html>
-`;
-novaJanela.document.write(conteudo);
-novaJanela.document.close();
-} else {
-alert('Nenhuma imagem para salvar ou compartilhar!');
-}
-}
+
 
 // Função para baixar a imagem diretamente
 function forcarDownloadImagem() {
