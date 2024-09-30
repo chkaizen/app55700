@@ -1,7 +1,7 @@
 {
-    "name": "Nome do Aplicativo",
-    "short_name": "NomeCurto",
-    "description": "Uma breve descrição do seu aplicativo.",
+    "name": "55700-Vereador",
+    "short_name": "55700",
+    "description": "55700 para Vereador - Alexandre Santos!",
     "start_url": "index.html",
     "display": "standalone",
     "background_color": "#ffffff",
