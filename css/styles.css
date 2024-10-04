@@ -76,40 +76,38 @@ body {
 
 /* Estilo dos botões */
 .btn {
-    display: inline-block;
-    margin: 10px;
-    padding: 15px 30px;
-    font-size: 18px;
+    font-size: 14px; /* Diminuir o tamanho da fonte dos botões */
+    padding: 8px 16px; /* Diminuir o padding dos botões */
     background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
+    border-radius: 3px;
     cursor: pointer;
+    color: white;
+
 }
 
 /* Estilo do canvas e da área de desenho */
 .canvas-container {
-    border: 2px solid #000;
-    display: inline-block;
-    position: relative;
-    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0; /* Margem para garantir espaçamento entre os botões */
 }
 
 #canvas {
+    max-width: 100%;
+    height: auto;
     border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Barra de ferramentas na parte inferior */
 .bottom-toolbar {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
     display: flex;
     justify-content: space-around;
-    width: 80%;
+    margin-top: 10px;
+    padding: 10px;
 }
-
 /* Rodapé com link */
 footer {
     position: fixed;

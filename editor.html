@@ -23,22 +23,21 @@
 <body>
     <h1>Criar Nova Foto</h1>
     <div class="toolbar">
-        <!-- Botão para inserir imagem -->
-        <button class="btn" onclick="carregarImagem()">Escolha uma Foto Sua</button>
-        <!-- Botão para trocar moldura -->
-        <button class="btn" onclick="trocarMoldura()">Trocar Moldura</button>
-        </div>
-    <div class="canvas-container">
-        <!-- Canvas onde a imagem e moldura serão manipuladas -->
+        <!-- Botões de cima -->
+    <button class="btn" onclick="carregarImagem()">Escolha uma Foto Sua</button>
+    <button class="btn" onclick="trocarMoldura()">Trocar Moldura</button>
+
+
+     <!-- Canvas centralizado -->
+     <div class="canvas-container">
         <canvas id="canvas" width="400" height="400"></canvas>
     </div>
 
     <!-- Botões reposicionados na parte inferior -->
-    <div class="bottom-toolbar">
+     <!-- Botões de baixo -->
+     <div class="bottom-toolbar">
         <button class="btn" onclick="voltarParaHome()">Voltar para Home</button>
-        <!-- Botão de compartilhamento -->
         <button class="btn" onclick="compartilharImagem()">Compartilhar</button>
-        <!-- Botão de download da imagem -->
         <button class="btn" onclick="forcarDownloadImagem()">Download da Imagem</button>
     </div>
 
