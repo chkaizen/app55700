@@ -224,7 +224,7 @@ function compartilharImagem() {
         if (navigator.share) {
             navigator.share({
                 title: 'Compartilhar Imagem',
-                text: 'Confira esta imagem que eu criei!',
+                text: ' Vamos juntos mudar nossa foto de perfil nas redes sociais para demonstrar apoio ao nosso candidato e compromisso com o futuro de nossa cidade. Entre no link 👉 https://l1nq.com/Ale55700, clique em "Criar Foto de Perfil", escolha sua foto de perfil, salve, compartilhe e pronto! 📲🙌',
                 files: [new File([dataURLtoBlob(dataURL)], 'imagem_compartilhada.jpg', { type: 'image/jpeg' })]
             }).catch((error) => console.log('Erro ao compartilhar:', error));
         } else {
