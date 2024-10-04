@@ -1,4 +1,4 @@
-// Carrega o histórico de imagens ao iniciar
+/* / Carrega o histórico de imagens ao iniciar
 document.addEventListener("DOMContentLoaded", () => {
     atualizarHistorico();
 });
@@ -21,13 +21,20 @@ document.addEventListener('deviceready', function() {
         console.error("Erro ao solicitar permissão: ", error);
         alert("Erro ao solicitar permissão!");
     });
-});
+}); 
+
+*/
 
 // Caminhos para molduras padrão na pasta do aplicativo
 let molduras = [
+    'SF1.png',
+    'SF2.png',
     'GD1.png',
     'GD2.png',
     'GD3.png',
+    'E1.png',
+    'E2.png',
+    'E3.png',
 ]; 
 
 let molduraIndex = 0;
@@ -114,7 +121,7 @@ function alterarProporcao(proporcao) {
     if (proporcao === '1:1') {
         canvas.width = 400;
         canvas.height = 400;
-        molduras = ['GD1.png', 'GD2.png', 'GD3.png'];
+        molduras = ['SF1.png','SF2.png','GD1.png', 'GD2.png', 'GD3.png','E1.png', 'E2.png', 'E3.png'];
     } else if (proporcao === '9:16') {
         canvas.width = 400;
         canvas.height = 711;
