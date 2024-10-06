@@ -26,6 +26,18 @@ document.addEventListener('deviceready', function() {
 */
 
 // Caminhos para molduras padrão na pasta do aplicativo
+
+function irParaEditor() {
+    window.location.href = 'editor.html';
+    
+    // Enviar evento para o Google Analytics
+    gtag('event', 'page_view', {
+      'page_title': 'Editor de Fotos',
+      'page_location': window.location.href,
+      'page_path': '/editor.html'
+    });
+}
+
 let molduras = [
     'SF1.png',
     'SF2.png',
